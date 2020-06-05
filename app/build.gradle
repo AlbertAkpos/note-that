@@ -8,6 +8,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
+
     defaultConfig {
         applicationId "me.alberto.notethat"
         minSdkVersion 21
