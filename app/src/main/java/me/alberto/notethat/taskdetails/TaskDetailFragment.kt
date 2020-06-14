@@ -11,6 +11,7 @@ import me.alberto.notethat.EventObserver
 import me.alberto.notethat.R
 import me.alberto.notethat.databinding.FragmentTaskDetailBinding
 import me.alberto.notethat.tasks.DELETE_RESULT_OK
+import me.alberto.notethat.util.setupRefreshLayout
 import me.alberto.notethat.util.setupSnackbar
 
 /**
@@ -29,6 +30,7 @@ class TaskDetailFragment : Fragment() {
         setupFab()
         view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
         setupNavigation()
+        this.setupRefreshLayout(binding.refreshLayout)
     }
 
     private fun setupNavigation() {
@@ -61,18 +63,20 @@ class TaskDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_task_detail, container, false)
+        binding = FragmentTaskDetailBinding.inflate(inflater, container, false)
 
-        binding = FragmentTaskDetailBinding.bind(view).apply {
-            this.viewmodel = viewmodel
-        }
-        binding.lifecycleOwner = this.viewLifecycleOwner
+        binding.viewmodel = viewModel
+
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.start(args.taskId)
 
+
+
+
         setHasOptionsMenu(true)
 
-        return view
+        return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -92,10 +92,11 @@ class DefaultTasksRepository private constructor(application: Application) {
     }
 
 
-    suspend fun getTask(taskId: String, forceUpdate: Boolean = false) {
+    suspend fun getTask(taskId: String, forceUpdate: Boolean = false): Result<Task> {
         if (forceUpdate) {
             updateTaskFromRemoteDataSource(taskId)
         }
+        return taskLocalDataSource.getTask(taskId)
     }
 
     suspend fun saveTask(task: Task) {
@@ -120,7 +121,7 @@ class DefaultTasksRepository private constructor(application: Application) {
         }
     }
 
-    suspend fun activateTask(task: Task) = withContext(ioDispatcher){
+    suspend fun activateTask(task: Task) = withContext(ioDispatcher) {
         coroutineScope {
             launch { taskLocalDataSource.activateTask(task) }
             launch { taskRemoteDataSource.activateTask(task) }

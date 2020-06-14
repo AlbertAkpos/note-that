@@ -66,7 +66,6 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
         if (_dataLoading.value == true || taskId == _taskId.value) {
             return
         }
-
         //Trigger the Load
         _taskId.value = taskId
     }

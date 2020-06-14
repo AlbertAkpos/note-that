@@ -3,60 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tasksFragment">
+    app:startDestination="@id/tasks_fragment_dest">
 
     <fragment
-        android:id="@+id/tasksFragment"
+        android:id="@+id/tasks_fragment_dest"
         android:name="me.alberto.notethat.tasks.TasksFragment"
         android:label="fragment_tasks"
         tools:layout="@layout/fragment_tasks" >
         <action
             android:id="@+id/action_tasksFragment_to_taskDetailFragment"
-            app:destination="@id/taskDetailFragment" />
+            app:destination="@id/task_detail_fragment_dest" />
         <action
             android:id="@+id/action_tasksFragment_to_statisticsFragment"
-            app:destination="@id/statisticsFragment" />
+            app:destination="@id/statistics_fragment_dest" />
         <action
             android:id="@+id/action_tasksFragment_to_addEditTaskFragment"
-            app:destination="@id/addEditTaskFragment" />
+            app:destination="@id/add_edit_task_fragment_dest" />
         <action
             android:id="@+id/action_tasksFragment_to_taskDetailFragment2"
-            app:destination="@id/taskDetailFragment" />
+            app:destination="@id/task_detail_fragment_dest" />
         <argument
             android:name="userMessage"
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
     <fragment
-        android:id="@+id/taskDetailFragment"
+        android:id="@+id/task_detail_fragment_dest"
         android:name="me.alberto.notethat.taskdetails.TaskDetailFragment"
         android:label="TaskDetailFragment" >
         <action
             android:id="@+id/action_taskDetailFragment_to_tasksFragment"
-            app:destination="@id/tasksFragment" />
+            app:destination="@id/tasks_fragment_dest" />
         <action
             android:id="@+id/action_taskDetailFragment_to_addEditTaskFragment"
-            app:destination="@id/addEditTaskFragment" />
+            app:destination="@id/add_edit_task_fragment_dest" />
         <argument
             android:name="taskId"
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/statisticsFragment"
+        android:id="@+id/statistics_fragment_dest"
         android:name="me.alberto.notethat.statistics.StatisticsFragment"
         android:label="StatisticsFragment" >
         <action
             android:id="@+id/action_statisticsFragment_to_tasksFragment"
-            app:destination="@id/tasksFragment" />
+            app:destination="@id/tasks_fragment_dest" />
     </fragment>
     <fragment
-        android:id="@+id/addEditTaskFragment"
+        android:id="@+id/add_edit_task_fragment_dest"
         android:name="me.alberto.notethat.addedittask.AddEditTaskFragment"
         android:label="fragment_add_edit_task"
         tools:layout="@layout/fragment_add_edit_task" >
         <action
             android:id="@+id/action_addEditTaskFragment_to_tasksFragment"
-            app:destination="@id/tasksFragment" />
+            app:destination="@id/tasks_fragment_dest" />
         <argument
             android:name="taskId"
             app:argType="string"

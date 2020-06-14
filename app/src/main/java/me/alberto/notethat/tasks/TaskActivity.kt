@@ -26,7 +26,11 @@ class TaskActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val navController: NavController = findNavController(R.id.nav_host_fragment)
-        appBarConfiguration = AppBarConfiguration.Builder(R.id)
+        //Defines a set of top level destinations. The up button would not be displayed in these destinations
+        appBarConfiguration =
+            AppBarConfiguration.Builder(R.id.tasks_fragment_dest, R.id.statistics_fragment_dest)
+                .setDrawerLayout(drawerLayout)
+                .build()
 
 
         setupActionBarWithNavController(navController, appBarConfiguration)
