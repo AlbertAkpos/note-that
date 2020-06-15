@@ -1,7 +1,9 @@
 package me.alberto.notethat
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.room.Room
+import kotlinx.coroutines.runBlocking
 import me.alberto.notethat.data.source.DefaultTasksRepository
 import me.alberto.notethat.data.source.TaskDataSource
 import me.alberto.notethat.data.source.TasksRepository
@@ -14,7 +16,8 @@ object ServiceLocator {
     private var database: ToDoDatabase? = null
 
     @Volatile
-    var tasksRepository: TasksRepository? = null
+    private var tasksRepository: TasksRepository? = null
+        @VisibleForTesting set
 
     fun provideTaskRepository(context: Context): TasksRepository {
         synchronized(this) {
@@ -38,11 +41,31 @@ object ServiceLocator {
         val result = Room.databaseBuilder(
             context.applicationContext,
             ToDoDatabase::class.java,
-            "tasks_db"
+            "task_db"
         ).build()
 
         database = result
         return result
+    }
+
+
+    private val lock = Any()
+
+    @VisibleForTesting
+    fun resetRepository() {
+        synchronized(lock) {
+            runBlocking {
+                TaskRemoteDataSource.deleteAllTasks()
+            }
+
+            //clear all data to avoid test pollution
+            database?.apply {
+                clearAllTables()
+                close()
+            }
+            database = null
+            tasksRepository = null
+        }
     }
 
 

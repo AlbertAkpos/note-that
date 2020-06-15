@@ -22,7 +22,7 @@ interface TasksRepository {
 
     suspend fun completeTask(taskId: String)
 
-    suspend fun activateTask(task: Task): Job
+    suspend fun activateTask(task: Task)
 
     suspend fun activateTask(taskId: String)
 

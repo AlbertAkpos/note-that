@@ -11,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import me.alberto.notethat.EventObserver
 import me.alberto.notethat.R
-import me.alberto.notethat.data.source.DefaultTasksRepository
+import me.alberto.notethat.TodoApplication
 import me.alberto.notethat.databinding.FragmentTasksBinding
 import me.alberto.notethat.util.setupRefreshLayout
 import me.alberto.notethat.util.setupSnackbar
@@ -25,7 +25,7 @@ class TasksFragment : Fragment() {
     private lateinit var binding: FragmentTasksBinding
 
     private val viewModel by viewModels<TasksViewModel> {
-        TasksViewModelFactory(DefaultTasksRepository.getRepository(requireActivity().application))
+        TasksViewModelFactory((requireActivity().application as TodoApplication).tasksRepository)
     }
 
     private val args by navArgs<TasksFragmentArgs>()

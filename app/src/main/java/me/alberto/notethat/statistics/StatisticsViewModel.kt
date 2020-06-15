@@ -3,15 +3,15 @@ package me.alberto.notethat.statistics
 import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import me.alberto.notethat.TodoApplication
 import me.alberto.notethat.data.Result
 import me.alberto.notethat.data.Result.Error
 import me.alberto.notethat.data.Result.Success
 import me.alberto.notethat.data.Task
-import me.alberto.notethat.data.source.DefaultTasksRepository
 
 class StatisticsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
+    private val tasksRepository = (application as TodoApplication).tasksRepository
 
     private val tasks: LiveData<Result<List<Task>>> = tasksRepository.observeTasks()
 
