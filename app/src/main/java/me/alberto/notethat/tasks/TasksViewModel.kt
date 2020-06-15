@@ -1,6 +1,5 @@
 package me.alberto.notethat.tasks
 
-import android.app.Application
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
@@ -10,10 +9,9 @@ import me.alberto.notethat.R
 import me.alberto.notethat.data.Result
 import me.alberto.notethat.data.Result.Success
 import me.alberto.notethat.data.Task
-import me.alberto.notethat.data.source.DefaultTasksRepository
+import me.alberto.notethat.data.source.TasksRepository
 
-class TasksViewModel(application: Application) : AndroidViewModel(application) {
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
+class TasksViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -196,5 +194,14 @@ class TasksViewModel(application: Application) : AndroidViewModel(application) {
 
     fun refresh() {
         _forceUpdate.value = true
+    }
+}
+
+@Suppress("unchecked_cast")
+class TasksViewModelFactory(
+    private val tasksRepository: TasksRepository
+): ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return TasksViewModel(tasksRepository) as T
     }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import me.alberto.notethat.EventObserver
 import me.alberto.notethat.R
+import me.alberto.notethat.data.source.DefaultTasksRepository
 import me.alberto.notethat.databinding.FragmentTaskDetailBinding
 import me.alberto.notethat.tasks.DELETE_RESULT_OK
 import me.alberto.notethat.util.setupRefreshLayout
@@ -23,7 +24,9 @@ class TaskDetailFragment : Fragment() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<TaskDetailViewModel>()
+    private val viewModel by viewModels<TaskDetailViewModel> {
+        TaskDetailViewModelFactory(DefaultTasksRepository.getRepository(requireActivity().application))
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

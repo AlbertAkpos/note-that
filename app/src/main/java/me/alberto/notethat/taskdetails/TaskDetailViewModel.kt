@@ -1,6 +1,5 @@
 package me.alberto.notethat.taskdetails
 
-import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
@@ -9,10 +8,9 @@ import me.alberto.notethat.R
 import me.alberto.notethat.data.Result
 import me.alberto.notethat.data.Result.Success
 import me.alberto.notethat.data.Task
-import me.alberto.notethat.data.source.DefaultTasksRepository
+import me.alberto.notethat.data.source.TasksRepository
 
-class TaskDetailViewModel(application: Application) : AndroidViewModel(application) {
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
+class TaskDetailViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
 
     private val _taskId = MutableLiveData<String>()
 
@@ -92,5 +90,14 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
 
     private fun showSnackbarMessage(@StringRes message: Int) {
         _snackbarText.value = Event(message)
+    }
+}
+
+@Suppress("unchecked_cast")
+class TaskDetailViewModelFactory(
+    private val tasksRepository: TasksRepository
+) : ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return TaskDetailViewModel(tasksRepository) as T
     }
 }
