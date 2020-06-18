@@ -16,7 +16,7 @@ object ServiceLocator {
     private var database: ToDoDatabase? = null
 
     @Volatile
-    private var tasksRepository: TasksRepository? = null
+    var tasksRepository: TasksRepository? = null
         @VisibleForTesting set
 
     fun provideTaskRepository(context: Context): TasksRepository {

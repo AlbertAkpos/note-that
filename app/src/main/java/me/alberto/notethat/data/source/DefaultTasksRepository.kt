@@ -1,22 +1,16 @@
 package me.alberto.notethat.data.source
 
-import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.room.Room
 import kotlinx.coroutines.*
 import me.alberto.notethat.data.Result
 import me.alberto.notethat.data.Result.Success
 import me.alberto.notethat.data.Task
-import me.alberto.notethat.data.source.local.TasksLocalDataSource
-import me.alberto.notethat.data.source.local.ToDoDatabase
-import me.alberto.notethat.data.source.remote.TaskRemoteDataSource
 
 class DefaultTasksRepository(
     private val taskRemoteDataSource: TaskDataSource,
     private val taskLocalDataSource: TaskDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : TasksRepository {
-
 
 
     override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
@@ -98,10 +92,12 @@ class DefaultTasksRepository(
         }
     }
 
-    override suspend fun activateTask(task: Task) = withContext(ioDispatcher) {
-        coroutineScope {
-            launch { taskLocalDataSource.activateTask(task) }
-            launch { taskRemoteDataSource.activateTask(task) }
+    override suspend fun activateTask(task: Task) {
+        withContext(ioDispatcher) {
+            coroutineScope {
+                launch { taskLocalDataSource.activateTask(task) }
+                launch { taskRemoteDataSource.activateTask(task) }
+            }
         }
     }
 
